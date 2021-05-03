@@ -27,7 +27,7 @@ export function Header() {
       h='20'
       mx='auto'
       mt='4'
-      px='6'
+      px='4'
       align='center'
     >
 
