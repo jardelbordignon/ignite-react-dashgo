@@ -11,7 +11,8 @@ import {
   Text, 
   Th, 
   Thead, 
-  Tr } from '@chakra-ui/react'
+  Tr, 
+  useBreakpointValue} from '@chakra-ui/react'
 import { RiAddLine, RiPencilLine } from 'react-icons/ri'
 
 import { Header } from '../../components/Header'
@@ -19,14 +20,19 @@ import { Pagination } from '../../components/Pagination'
 import { Sidebar } from '../../components/Sidebar'
 
 export default function UserList() {
+  const isWideVersion = useBreakpointValue({
+    base: false,
+    lg: true
+  })
+
   return (
     <Box>
       <Header />
 
-      <Flex w='100%' my='6' mx='auto' maxWidth={1480} px='6'>
+      <Flex my='6' mx='auto' maxWidth={1480} px={['4', '6', '8']}>
         <Sidebar />
 
-        <Box flex='1' borderRadius={8} bg='gray.800' p='8'>
+        <Box borderRadius={8} bg='gray.800' p={['4', '6', '8']} w='100%'>
           <Flex mb='8' justify='space-between' align='center'>
             <Heading size='lg' fontWeight='normal'>Usuários</Heading>
             <Button
@@ -40,21 +46,21 @@ export default function UserList() {
             </Button>
           </Flex>
         
-          <Table colorScheme='whiteAlpha'>
+          <Table colorScheme='whiteAlpha' maxWidth='90vw'>
             <Thead>
               <Tr>
-                <Th px='6' color='gray.300' width='8'>
+                <Th px={['3', '4', '6']} color='gray.300' width='8'>
                   <Checkbox colorScheme='pink' />
                 </Th>
                 <Th>Usuários</Th>
-                <Th>Data de cadastro</Th>
-                <Th width='8'>Opções</Th>
+                { isWideVersion && <Th>Data de cadastro</Th> }
+                <Th px={['1', '4', '6']}>Opções</Th>
               </Tr>
             </Thead>
 
             <Tbody>
-              <Tr>
-                <Td px='6'>
+              <Tr w={340}>
+                <Td px={['3', '4', '6']}>
                   <Checkbox colorScheme='pink' />
                 </Td>
                 <Td>
@@ -63,17 +69,17 @@ export default function UserList() {
                     <Text fontSize='sm' color='gray.300'>jardel1101@gmail.com</Text>
                   </Box>
                 </Td>
-                <Td>01 de Maio, 2021</Td>
-                <Td>
-                <Button
-                  as='a'
-                  size='sm' 
-                  fontSize='sm'
-                  colorScheme='purple'
-                  leftIcon={<Icon as={RiPencilLine} fontSize='20' />}
-                >
-                  Editar
-                </Button>
+                { isWideVersion && <Td>01 de Maio, 2021</Td> }
+                <Td px={['1', '4', '6']}>
+                  <Button
+                    as='a'
+                    size='sm' 
+                    fontSize='sm'
+                    colorScheme='purple'
+                    leftIcon={isWideVersion ? <Icon as={RiPencilLine} fontSize='20' /> : null}
+                  >
+                    { isWideVersion ? 'Editar' : <Icon as={RiPencilLine} fontSize='20' /> }
+                  </Button>
                 </Td>
               </Tr>
             </Tbody>
