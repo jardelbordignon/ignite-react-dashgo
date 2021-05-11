@@ -25,10 +25,21 @@ import { Sidebar } from '../../components/Sidebar'
 export default function UserList() {
   const { data, isLoading, error } = useQuery('users', async () => {
     const response = await fetch('http://localhost:3000/api/users')
-    return response.json()
-  })
+    const data = await response.json()
 
-  console.log(data)
+    const users = data.users.map(user => ({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      createdAt: new Date(user.createdAt).toLocaleDateString('pt-BR', {
+        day: '2-digit',
+        month: 'long',
+        year: 'numeric'
+      })
+    }))
+
+    return users
+  })
 
   const isWideVersion = useBreakpointValue({
     base: false,
@@ -81,29 +92,33 @@ export default function UserList() {
                   </Thead>
 
                   <Tbody>
-                    <Tr w={340}>
-                      <Td px={['3', '4', '6']}>
-                        <Checkbox colorScheme='pink' />
-                      </Td>
-                      <Td>
-                        <Box>
-                          <Text fontWeight='bold'>Jardel Bordignon</Text>
-                          <Text fontSize='sm' color='gray.300'>jardel1101@gmail.com</Text>
-                        </Box>
-                      </Td>
-                      { isWideVersion && <Td>01 de Maio, 2021</Td> }
-                      <Td px={['1', '4', '6']}>
-                        <Button
-                          as='a'
-                          size='sm' 
-                          fontSize='sm'
-                          colorScheme='purple'
-                          leftIcon={isWideVersion ? <Icon as={RiPencilLine} fontSize='20' /> : null}
-                        >
-                          { isWideVersion ? 'Editar' : <Icon as={RiPencilLine} fontSize='20' /> }
-                        </Button>
-                      </Td>
-                    </Tr>
+                    {
+                      data.map(user => (
+                        <Tr w={340} key={user.id}>
+                          <Td px={['3', '4', '6']}>
+                            <Checkbox colorScheme='pink' />
+                          </Td>
+                          <Td>
+                            <Box>
+                              <Text fontWeight='bold'>{ user.name }</Text>
+                              <Text fontSize='sm' color='gray.300'>{ user.email }</Text>
+                            </Box>
+                          </Td>
+                          { isWideVersion && <Td>{ user.createdAt }</Td> }
+                          <Td px={['1', '4', '6']}>
+                            <Button
+                              as='a'
+                              size='sm' 
+                              fontSize='sm'
+                              colorScheme='purple'
+                              leftIcon={isWideVersion ? <Icon as={RiPencilLine} fontSize='20' /> : null}
+                            >
+                              { isWideVersion ? 'Editar' : <Icon as={RiPencilLine} fontSize='20' /> }
+                            </Button>
+                          </Td>
+                        </Tr>
+                      ))
+                    }
                   </Tbody>
                 </Table>
 

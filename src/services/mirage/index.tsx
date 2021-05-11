@@ -6,7 +6,7 @@ faker.locale = 'pt_BR'
 type User = {
   name: string
   email: string
-  create_at: string
+  created_at: string
 }
 
 export function makeServer() {
@@ -19,12 +19,12 @@ export function makeServer() {
       user: Factory.extend({
         name() { return faker.name.findName() },
         email() { return faker.internet.email().toLowerCase() },
-        createAt() { return faker.date.recent(10) }
+        createdAt() { return faker.date.recent(10) }
       })
     },
 
     seeds(server) {
-      server.createList('user', 200)
+      server.createList('user', 10)
     },
     
     routes() {
