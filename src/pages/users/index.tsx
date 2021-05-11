@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { 
   Box, 
   Button, 
@@ -26,12 +25,6 @@ export default function UserList() {
     base: false,
     lg: true
   })
-
-  useEffect(() => {
-    fetch('http://localhost:3000/api/users')
-      .then(response => response.json())
-      .then(data => console.log(data))
-  }, [])
 
   return (
     <Box>
