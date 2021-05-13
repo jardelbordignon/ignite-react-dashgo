@@ -5,6 +5,7 @@ import {
   Flex, 
   Heading, 
   Icon, 
+  Link as ChakraLink,
   Spinner, 
   Table, 
   Tbody, 
@@ -22,6 +23,8 @@ import { Header } from '../../components/Header'
 import { Pagination } from '../../components/Pagination'
 import { Sidebar } from '../../components/Sidebar'
 import { useUsers } from '../../services/hooks/useUsers'
+import { queryClient } from '../../services/queryClient'
+import { api } from '../../services/api'
 
 export default function UserList() {
   const [page, setPage] = useState(1)
@@ -31,6 +34,16 @@ export default function UserList() {
     base: false,
     lg: true
   })
+
+  async function handlePrefetchUser(userId: string) {
+    await queryClient.prefetchQuery(['user', userId], async () => {
+      const response = await api.get(`users/${userId}`)
+      
+      return response.data
+    }, {
+      staleTime: 1000 * 60 * 10 // 10 min
+    })
+  }
 
   return (
     <Box>
@@ -91,7 +104,12 @@ export default function UserList() {
                           </Td>
                           <Td>
                             <Box>
-                              <Text fontWeight='bold'>{ user.name }</Text>
+                              <ChakraLink
+                                color='purple.400' 
+                                onMouseEnter={() => handlePrefetchUser(user.id)}
+                              >
+                                <Text fontWeight='bold'>{ user.name }</Text>
+                              </ChakraLink>
                               <Text fontSize='sm' color='gray.300'>{ user.email }</Text>
                             </Box>
                           </Td>
