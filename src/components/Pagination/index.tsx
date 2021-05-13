@@ -54,7 +54,7 @@ export function Pagination({
             <>
               <PaginationItem number={1} />
               { currentPage > delta + 2 && (
-                currentPage === 4
+                delta > 0 && currentPage === delta + 3
                 ? <PaginationItem number={2} />
                 : <Text color='gray.300'>...</Text>
               )}
@@ -74,7 +74,7 @@ export function Pagination({
           { currentPage + delta < lastPage && (
             <>
               { currentPage + delta + 1 < lastPage && (
-                currentPage + delta + 2 === lastPage
+                delta > 0 && currentPage + delta + 2 === lastPage
                 ? <PaginationItem number={lastPage - 1} />
                 : <Text color='gray.300'>...</Text>
               )} 
