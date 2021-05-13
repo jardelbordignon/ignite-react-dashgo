@@ -52,33 +52,33 @@ export function Pagination({
 
           { currentPage > delta + 1 && (
             <>
-              <PaginationItem number={1} />
+              <PaginationItem onPageChange={onPageChange} number={1} />
               { currentPage > delta + 2 && (
                 delta > 0 && currentPage === delta + 3
-                ? <PaginationItem number={2} />
+                ? <PaginationItem onPageChange={onPageChange} number={2} />
                 : <Text color='gray.300'>...</Text>
               )}
             </>
           )}
 
           { !!previousPages.length && previousPages.map(page => (
-            <PaginationItem number={page} key={page} />
+            <PaginationItem onPageChange={onPageChange} number={page} key={page} />
           ))}
 
-          <PaginationItem number={currentPage} isCurrent />
+          <PaginationItem onPageChange={onPageChange} number={currentPage} isCurrent />
 
           { !!nextPages.length && nextPages.map(page => (
-            <PaginationItem number={page} key={page} />
+            <PaginationItem onPageChange={onPageChange} number={page} key={page} />
           ))}
 
           { currentPage + delta < lastPage && (
             <>
               { currentPage + delta + 1 < lastPage && (
                 delta > 0 && currentPage + delta + 2 === lastPage
-                ? <PaginationItem number={lastPage - 1} />
+                ? <PaginationItem onPageChange={onPageChange} number={lastPage - 1} />
                 : <Text color='gray.300'>...</Text>
               )} 
-              <PaginationItem number={lastPage} />
+              <PaginationItem onPageChange={onPageChange} number={lastPage} />
             </>
           )}
 
